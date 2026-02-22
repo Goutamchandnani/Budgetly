@@ -19,7 +19,16 @@ export default function Login() {
             toast.success('Welcome back!');
             navigate('/');
         } catch (error) {
-            toast.error(error.response?.data?.message || 'Failed to login');
+            // Check if it's an array of errors (from express-validator)
+            if (error.response?.data?.errors && Array.isArray(error.response.data.errors)) {
+                toast.error(error.response.data.errors[0].msg);
+            } else if (error.response?.data?.message) {
+                toast.error(error.response.data.message);
+            } else if (error.response?.data?.error) {
+                toast.error(error.response.data.error);
+            } else {
+                toast.error('Failed to login. Please try again.');
+            }
         } finally {
             setLoading(false);
         }

@@ -17,7 +17,15 @@ export default function ForgotPassword() {
             setSubmitted(true);
             toast.success('Reset link sent to your email');
         } catch (error) {
-            toast.error(error.response?.data?.message || 'Failed to send reset email');
+            if (error.response?.data?.errors && Array.isArray(error.response.data.errors)) {
+                toast.error(error.response.data.errors[0].msg);
+            } else if (error.response?.data?.message) {
+                toast.error(error.response.data.message);
+            } else if (error.response?.data?.error) {
+                toast.error(error.response.data.error);
+            } else {
+                toast.error('Failed to send reset email');
+            }
         } finally {
             setLoading(false);
         }
