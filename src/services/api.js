@@ -1,6 +1,11 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+let API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+
+// Gracefully handle if the user forgot to add /api to their environment variable
+if (API_URL && !API_URL.endsWith('/api')) {
+    API_URL = `${API_URL.replace(/\/$/, '')}/api`;
+}
 
 const api = axios.create({
     baseURL: API_URL,
