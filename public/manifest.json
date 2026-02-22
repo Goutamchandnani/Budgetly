@@ -1,0 +1,42 @@
+{
+    "name": "Budgetly - Student Finance Tracker",
+    "short_name": "Budgetly",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0a0a0a",
+    "theme_color": "#ccff00",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "/favicon.png",
+            "sizes": "192x192 512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "/favicon.svg",
+            "sizes": "any",
+            "type": "image/svg+xml",
+            "purpose": "any maskable"
+        }
+    ],
+    "description": "Smart budget tracking on the go student friendly.",
+    "categories": [
+        "finance",
+        "productivity",
+        "students"
+    ],
+    "shortcuts": [
+        {
+            "name": "Add Expense",
+            "short_name": "Add",
+            "description": "Quickly add a new expense",
+            "url": "/dashboard?action=add",
+            "icons": [
+                {
+                    "src": "/favicon.svg",
+                    "sizes": "any"
+                }
+            ]
+        }
+    ]
+}

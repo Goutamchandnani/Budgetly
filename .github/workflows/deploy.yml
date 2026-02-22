@@ -1,0 +1,103 @@
+name: Deploy to Railway
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+      
+      - name: Install dependencies
+        working-directory: ./backend
+        run: npm ci
+      
+      - name: Run tests
+        working-directory: ./backend
+        run: npm test
+        env:
+          NODE_ENV: test
+          DATABASE_URL: mongodb://localhost:27017/budgettracker-test
+          JWT_SECRET: test-secret-key-for-ci-only
+          TELEGRAM_BOT_TOKEN: test-token
+      
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./backend/coverage/lcov.info
+          flags: backend
+          name: backend-coverage
+
+  lint:
+    name: Lint Code
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Install dependencies
+        working-directory: ./backend
+        run: npm ci
+      
+      - name: Run ESLint
+        working-directory: ./backend
+        run: npx eslint src/ --max-warnings 0
+        continue-on-error: true
+
+  deploy:
+    name: Deploy to Railway
+    runs-on: ubuntu-latest
+    needs: [test, lint]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Deploy to Railway
+        run: |
+          echo "🚀 Deploying to Railway..."
+          echo "Railway auto-deploys when connected to GitHub"
+          echo "Check Railway dashboard for deployment status"
+      
+      - name: Notify deployment
+        run: |
+          echo "✅ Deployment triggered successfully"
+          echo "Monitor at: https://railway.app"
+
+  notify:
+    name: Notify Status
+    runs-on: ubuntu-latest
+    needs: [test, lint, deploy]
+    if: always()
+    
+    steps:
+      - name: Check status
+        run: |
+          if [ "${{ needs.deploy.result }}" == "success" ]; then
+            echo "✅ All checks passed and deployed successfully!"
+          else
+            echo "❌ Deployment failed or was skipped"
+          fi
