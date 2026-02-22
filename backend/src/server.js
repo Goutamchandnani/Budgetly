@@ -168,7 +168,7 @@ if (require.main === module) {
             console.log(`🚀 Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
 
             // Initialize Bot
-            if (process.env.NODE_ENV !== 'production' && bot) {
+            if (bot) {
                 console.log('🤖 Starting Telegram Bot in polling mode...');
                 bot.startPolling().catch(err => {
                     console.error('❌ Bot Polling Error:', err.message);
