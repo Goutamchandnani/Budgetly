@@ -46,7 +46,7 @@ export default function Dashboard() {
         try {
             const response = await expenseService.addExpense(newExpense);
             haptics.success();
-            setExpenses(prev => [response.data, ...prev]);
+            setExpenses(prev => [response.data.expense || response.data, ...prev]);
             toast.success('Expense added successfully');
         } catch (error) {
             haptics.error();
