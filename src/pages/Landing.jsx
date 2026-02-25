@@ -32,18 +32,18 @@ export default function Landing() {
             </div>
 
             {/* Navbar */}
-            <nav className="relative z-50 px-6 py-6 flex justify-between items-center max-w-7xl mx-auto">
-                <div className="text-2xl font-bold tracking-tighter flex items-center gap-2">
-                    <div className="w-8 h-8 bg-budgetly-accent rounded-lg flex items-center justify-center text-budgetly-base">
-                        <Zap size={20} fill="currentColor" />
+            <nav className="relative z-50 px-4 sm:px-6 py-4 sm:py-6 flex justify-between items-center max-w-7xl mx-auto">
+                <div className="text-xl sm:text-2xl font-bold tracking-tighter flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 bg-budgetly-accent rounded-lg flex items-center justify-center text-budgetly-base flex-shrink-0">
+                        <Zap className="w-4 h-4 sm:w-5 sm:h-5 text-budgetly-base" fill="currentColor" />
                     </div>
                     Budgetly
                 </div>
-                <div className="flex items-center gap-4">
-                    <Link to="/login" className="text-budgetly-sage hover:text-budgetly-white font-medium transition-colors">Login</Link>
+                <div className="flex items-center gap-3 sm:gap-4">
+                    <Link to="/login" className="text-sm sm:text-base text-budgetly-sage hover:text-budgetly-white font-medium transition-colors">Login</Link>
                     <Link
                         to="/signup"
-                        className="px-6 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl font-bold transition-all"
+                        className="text-sm sm:text-base px-4 py-2 sm:px-6 sm:py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl font-bold transition-all whitespace-nowrap"
                         onMouseEnter={playHoverSound}
                     >
                         Get Started
